@@ -1,5 +1,5 @@
-import pytest
 import pandas as pd
+import pytest
 
 numeric_test_data_dict = [{"a": 1, "b": 2, "c": 3}, {"a": 10, "b": 20, "c": 30}]
 

@@ -1,5 +1,7 @@
+from hashlib import md5, sha256, sha512
+
 import pytest
-from hashlib import sha256, sha512, md5
+
 from humblepy.transform.humble_hashlib import _get_hashlib_hash_function_dict
 
 

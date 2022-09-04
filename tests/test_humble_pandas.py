@@ -1,12 +1,13 @@
-import pytest
 import pandas as pd
+import pytest
 from pandas.testing import assert_frame_equal
+
+from humblepy.transform.humble_pandas import _get_pandas_hash_key_column
 from tests.fixtures import (
-    numeric_test_data_with_nulls_pandas_df,
     numeric_test_data_pandas_df,
+    numeric_test_data_with_nulls_pandas_df,
     string_test_data_with_nulls_pandas_df,
 )
-from humblepy.transform.humble_pandas import _get_pandas_hash_key_column
 
 
 def test_get_pandas_hash_key_column_sha256(numeric_test_data_with_nulls_pandas_df):

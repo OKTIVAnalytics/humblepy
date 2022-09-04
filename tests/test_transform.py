@@ -1,7 +1,8 @@
-import pytest
 import pandas as pd
-from tests.fixtures import numeric_test_data_with_nulls_pandas_df
+import pytest
+
 from humblepy.transform.functions import get_hash_key_column
+from tests.fixtures import numeric_test_data_with_nulls_pandas_df
 
 
 def test_get_hash_key_column_pandas(numeric_test_data_with_nulls_pandas_df):

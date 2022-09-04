@@ -507,7 +507,7 @@ pytest = ">=3.0.0,<8.0.0"
 name = "pyupgrade"
 version = "2.37.3"
 description = "A tool to automatically upgrade syntax for newer versions."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 
@@ -599,7 +599,7 @@ pbr = ">=2.0.0,<2.1.0 || >2.1.0"
 name = "tokenize-rt"
 version = "4.2.1"
 description = "A wrapper around the stdlib `tokenize` which roundtrips."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.1"
 
@@ -676,7 +676,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "8e870938d5689301e7105dbaf1ae7ec59d8497a57b6319c0719ac97a0bf37042"
+content-hash = "86742427c5d87e0c9be23e30631cdf67a079a05f68606781d186435aa76ef78e"
 
 [metadata.files]
 astroid = [

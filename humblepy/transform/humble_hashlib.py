@@ -1,4 +1,4 @@
-from hashlib import sha256, sha512, md5
+from hashlib import md5, sha256, sha512
 
 
 def _get_hashlib_hash_function_dict():
