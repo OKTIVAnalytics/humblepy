@@ -13,7 +13,7 @@
 [![License](https://img.shields.io/github/license/OKTIVAnalytics/humblepy)](https://github.com/OKTIVAnalytics/humblepy/blob/master/LICENSE)
 ![Coverage Report](assets/images/coverage.svg)
 
-Tasty recipes for analytics engineering.
+Tasty recipes for analytics engineering 🥧
 
 </div>
 
@@ -76,6 +76,7 @@ Poetry's [commands](https://python-poetry.org/docs/cli/#commands) are very intui
 - `poetry publish --build`
 
 etc
+
 </p>
 </details>
 
@@ -149,8 +150,6 @@ or install with `Poetry`
 ```bash
 poetry add humblepy
 ```
-
-
 
 ### Makefile usage
 
