@@ -3,23 +3,18 @@ import pytest
 from pandas.testing import assert_frame_equal
 
 from humblepy.transform.humble_pandas import _get_pandas_hash_key_column
-from tests.fixtures import (
-    get_numeric_test_data_list,
-    get_numeric_test_data_with_nulls_list,
-    get_string_test_data_with_nulls_list,
-)
 
 
-def test_get_pandas_hash_key_column_sha256(get_numeric_test_data_with_nulls_list):
+def test_get_pandas_hash_key_column_sha256(numeric_with_nulls_pandas_df_fixture):
     """Tests the _get_pandas_hash_key_column() function using its default hash algorithm (SHA-256), concatenating strings with the default '||' and replacing nulls with the default '^^'.
 
     Args:
-        get_numeric_test_data_with_nulls_list (callable): pytest fixture for a list of dicts containing mostly numeric test data, with some null (NoneType) values, to create a DataFrame with.
+        numeric_with_nulls_pandas_df_fixture (callable): pytest fixture for a list of dicts containing mostly numeric test data, with some null (NoneType) values, to create a DataFrame with.
 
     """
     assert_frame_equal(
         _get_pandas_hash_key_column(
-            pd.DataFrame(get_numeric_test_data_with_nulls_list),
+            numeric_with_nulls_pandas_df_fixture,
             columns_to_hash=["a", "b"],
         ),
         pd.DataFrame(
@@ -33,16 +28,16 @@ def test_get_pandas_hash_key_column_sha256(get_numeric_test_data_with_nulls_list
     )
 
 
-def test_get_pandas_hash_key_column_sha512(get_numeric_test_data_list):
+def test_get_pandas_hash_key_column_sha512(numeric_pandas_df_fixture):
     """Tests the _get_pandas_hash_key_column() function using the SHA-512 hash algorithm, concatenating strings with the default '||' and replacing nulls with the default '^^'.
 
     Args:
-        get_numeric_test_data_list (callable): pytest fixture for a list of dicts containing numeric test data, to create a DataFrame with.
+        numeric_pandas_df_fixture (callable): pytest fixture for a list of dicts containing numeric test data, to create a DataFrame with.
     """
 
     assert_frame_equal(
         _get_pandas_hash_key_column(
-            pd.DataFrame(get_numeric_test_data_list),
+            pd.DataFrame(numeric_pandas_df_fixture),
             columns_to_hash=["a", "b"],
             hash_algorithm="sha512",
         ),
@@ -57,16 +52,16 @@ def test_get_pandas_hash_key_column_sha512(get_numeric_test_data_list):
     )
 
 
-def test_get_pandas_hash_key_column_md5(get_string_test_data_with_nulls_list):
+def test_get_pandas_hash_key_column_md5(string_with_nulls_pandas_df_fixture):
     """Tests the _get_pandas_hash_key_column() function using the MD5 hash algorithm, concatenating strings with '-' and replacing nulls with '#'.
 
     Args:
-        get_string_test_data_with_nulls_list (callable): pytest fixture for a list of dicts containing mostly string test data, with some null (NoneType) values, to create a DataFrame with.
+        string_with_nulls_pandas_df_fixture (callable): pytest fixture for a list of dicts containing mostly string test data, with some null (NoneType) values, to create a DataFrame with.
     """
 
     assert_frame_equal(
         _get_pandas_hash_key_column(
-            pd.DataFrame(get_string_test_data_with_nulls_list),
+            pd.DataFrame(string_with_nulls_pandas_df_fixture),
             columns_to_hash=["a", "b"],
             hash_algorithm="md5",
             concat_with="-",
