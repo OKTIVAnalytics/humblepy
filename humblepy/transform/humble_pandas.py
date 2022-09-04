@@ -19,6 +19,10 @@ def _get_pandas_hash_key_column(
         concat_with (str, optional): The string value to concatenate column value strings together with, before hashing. Using the default `concat_with` value, a row with values ("apple", "banana") will be concatenated as "apple||banana". Defaults to "||".
         replace_null_with (str, optional): The string value to replace nulls with, before hashing. Using the default `replace_null_with` and `concat_with` values, a row with values (null, null) will be concatenated as "^^||^^".. Defaults to "^^".
 
+    # noqa: DAR103 hash_algorithm
+    # noqa: DAR103 concat_with
+    # noqa: DAR103 replace_null_with
+
     Returns:
         pd.DataFrame: pandas DataFrame with single column called 'hash_key' containing hashed values.
     """

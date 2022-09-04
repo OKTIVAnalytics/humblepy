@@ -13,6 +13,8 @@ def get_hash_key_column(
         columns_to_hash (list): List of DataFrame columns to hash.
         hash_algorithm (str, optional):  Name of the hash algorithm to use. Must be one of ("sha256", "sha512", "md5"). Defaults to "sha256".
 
+    # noqa: DAR103 hash_algorithm
+
     Returns:
         pd.DataFrame: pandas DataFrame with single column called 'hash_key' containing hashed values.
     """
