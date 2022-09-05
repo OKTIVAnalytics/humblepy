@@ -1,0 +1,21 @@
+site_name: humblepy docs
+
+theme:
+  name: material
+  palette:
+    primary: white
+    accent: blue
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          selection:
+            docstring_style: google
+
+nav:
+  - Getting started: index.md
+  #  - tutorials.md
+  #  - how-to-guides.md
+  - reference.md
+  #  - explanation.md
