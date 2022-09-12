@@ -1,4 +1,6 @@
-# humblepy
+#
+
+![logo](assets/images/humblepy-banner-logo.svg)
 
 ## Installation
 
