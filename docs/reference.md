@@ -4,3 +4,4 @@ reference for the technical implementation of the
 `humblepy` project code.
 
 ::: humblepy.transform.functions
+::: humblepy.validate.functions
