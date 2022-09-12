@@ -38,11 +38,7 @@ def test_dataframes_are_equal_pyspark(numeric_with_nulls_pyspark_df_fixture):
 
 
 def test_dataframes_are_equal_raise():
-    """Tests the dataframes_are_equal() to make sure it raises a TypeError if passed objects of different types.
-    Args:
-        numeric_with_nulls_pyspark_df_fixture (callable): pytest fixture for a PySpark DataFrame containing mostly numeric test data, with some null (NoneType) values.
-
-    """
+    """Tests the dataframes_are_equal() to make sure it raises a TypeError if passed objects of different types."""
     left = (0, 1)
     right = [0, 1]
     with pytest.raises(
@@ -55,3 +51,14 @@ def test_dataframes_are_equal_raise():
             left=left,
             right=right,
         )
+
+
+def test_dataframes_are_equal_none():
+    """Tests the dataframes_are_equal() to make sure it returns None if the two objects are of the same type but not pandas DataFrames or PySpark DataFrames."""
+    assert (
+        dataframes_are_equal(
+            left=(0, 1),
+            right=(0, 1),
+        )
+        is None
+    )
