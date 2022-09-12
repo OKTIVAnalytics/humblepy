@@ -49,6 +49,7 @@ def numeric_pyspark_df_fixture(spark_session_fixture, numeric_test_data_fixture)
     """Returns a PySpark DataFrame containing numeric data.
 
     Args:
+        spark_session_fixture (callable): pytest fixture for setting up and tearing down a Spark session.
         numeric_test_data_fixture (callable): pytest fixture for a list of dicts with column names as keys and integers as values.
 
     Returns:
@@ -91,6 +92,7 @@ def numeric_with_nulls_pyspark_df_fixture(
     """Returns a PySpark DataFrame containing mostly numeric data, with some nulls (NaNs).
 
     Args:
+        spark_session_fixture (callable): pytest fixture for setting up and tearing down a Spark session.
         numeric_test_data_with_nulls_fixture (callable): pytest fixture for a list of dicts with column names as keys, and a mix of integer and NoneType values.
 
     Returns:
@@ -131,6 +133,7 @@ def string_pyspark_df_fixture(spark_session_fixture, string_test_data_fixture):
     """Returns a PySpark DataFrame containing string data.
 
     Args:
+        spark_session_fixture (callable): pytest fixture for setting up and tearing down a Spark session.
         string_test_data_fixture (callable): pytest fixture for a list of dicts with column names as keys and strings as values.
 
     Returns:
@@ -173,6 +176,7 @@ def string_with_nulls_pyspark_df_fixture(
     """Returns a PySpark DataFrame containing mostly string data, with some nulls (NaNs).
 
     Args:
+        spark_session_fixture (callable): pytest fixture for setting up and tearing down a Spark session.
         string_test_data_with_nulls_fixture (callable): pytest fixture for a list of dicts with column names as keys, and a mix of string and NoneType values.
 
     Returns:

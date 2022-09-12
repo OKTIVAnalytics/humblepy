@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Literal, Union
+from typing import TYPE_CHECKING, Literal, Optional, Union
 
 import pandas as pd
 
@@ -14,27 +14,25 @@ def with_hash_value_column(
     df: Union[pd.DataFrame, pq.DataFrame],
     columns_to_hash: list[str],
     hash_algorithm: Literal["sha256", "sha512", "md5"] = "sha256",
-    sort_columns: bool = False,
-    concat_with: str = "||",
-    replace_null_with: str = "^^",
-    uppercase: bool = True,
-    strip_whitespace: bool = True,
-    hash_value_column_name: str = "hash_key",
+    sort_columns: Optional[bool] = False,
+    concat_with: Optional[str] = "||",
+    replace_null_with: Optional[str] = "^^",
+    uppercase: Optional[bool] = True,
+    strip_whitespace: Optional[bool] = True,
+    hash_value_column_name: Optional[str] = "hash_key",
 ) -> Union[pd.DataFrame, pq.DataFrame]:
     """Returns a hash value column for a pandas DataFrame.
 
     Args:
         df (Union[pd.DataFrame, pq.DataFrame]): pandas or PySpark DataFrame to generate a hash value column from.
         hash_algorithm (Literal["sha256", "sha512", "md5"], optional):  Name of the hash algorithm to use. Must be one of ("sha256", "sha512", "md5"). Defaults to "sha256".
-        sort_columns (bool, optional): If True, the DataFrame columns in `columns_to_hash` will be sorted alphabetically prior to hashing. Defaults to False.
-        concat_with (str, optional): The string value to concatenate column value strings together with, before hashing. Using the default `concat_with` value, a row with values ("apple", "banana") will be concatenated as "apple||banana". Defaults to "||".
-        replace_null_with (str, optional): The string value to replace nulls with, before hashing. Using the default `replace_null_with` and `concat_with` values, a row with values (null, null) will be concatenated as "^^||^^". Defaults to "^^".
-        uppercase (bool, optional): If True, values will be converted to uppercase before hashing. Defaults to True.
-        strip_whitespace (bool, optional): If True, values will have leading and trailing whitespaces removed before hashing. Defaults to True.
-        hash_value_column_name (str, optional): The name of the hash value column to be added. Defaults to "hash_key".
-
-
-    # noqa: DAR103 hash_algorithm
+        columns_to_hash (list): List of DataFrame columns to hash.
+        sort_columns (Optional[bool]): If True, the DataFrame columns in `columns_to_hash` will be sorted alphabetically prior to hashing. Defaults to False.
+        concat_with (Optional[str]): The string value to concatenate column value strings together with, before hashing. Using the default `concat_with` value, a row with values ("apple", "banana") will be concatenated as "apple||banana". Defaults to "||".
+        replace_null_with (Optional[str]): The string value to replace nulls with, before hashing. Using the default `replace_null_with` and `concat_with` values, a row with values (null, null) will be concatenated as "^^||^^". Defaults to "^^".
+        uppercase (Optional[bool]): If True, values will be converted to uppercase before hashing. Defaults to True.
+        strip_whitespace (Optional[bool]): If True, values will have leading and trailing whitespaces removed before hashing. Defaults to True.
+        hash_value_column_name (Optional[str]): The name of the hash value column to be added. Defaults to "hash_key".
 
     Returns:
         Union[pd.DataFrame, pq.DataFrame, None]:

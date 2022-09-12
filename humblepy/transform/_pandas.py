@@ -29,14 +29,6 @@ def _with_pandas_hash_value_column(
         strip_whitespace (bool): If True, values will have leading and trailing whitespaces removed before hashing.
         hash_value_column_name (str): The name of the hash value column to be added.
 
-        # noqa: DAR103 sort_columns
-        # noqa: DAR103 hash_algorithm
-        # noqa: DAR103 concat_with
-        # noqa: DAR103 replace_null_with
-        # noqa: DAR103 hash_value_column_name
-        # noqa: DAR103 uppercase
-        # noqa: DAR103 strip_whitespace
-
     Returns:
         pd.DataFrame: A deep copy of the pandas DataFrame passed in, with an additional column containing hashed values.
     """

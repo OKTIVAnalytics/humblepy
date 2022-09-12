@@ -13,7 +13,7 @@ def _pyspark_dataframes_are_equal(left: pq.DataFrame, right: pq.DataFrame) -> bo
         left (pq.DataFrame): First DataFrame to compare.
         right (pq.DataFrame): Second DataFrame to compare.
 
-        Returns:
+    Returns:
         bool: True if the schema and data in the DataFrames are equal, else False.
     """
     return bool(left.schema == right.schema and left.collect() == right.collect())
