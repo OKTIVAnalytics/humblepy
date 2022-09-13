@@ -1,8 +1,5 @@
-#
-
-![logo](assets/images/humblepy-banner-logo.svg)
-
 <div align="center">
+![logo](https://firebasestorage.googleapis.com/v0/b/oktiv-1a64a.appspot.com/o/images%2Fhumblepy-banner-logo.svg?alt=media)
 
 [![Build status](https://github.com/OKTIVAnalytics/humblepy/workflows/build/badge.svg?branch=master&event=push)](https://github.com/OKTIVAnalytics/humblepy/actions?query=workflow%3Abuild)
 [![Python Version](https://img.shields.io/pypi/pyversions/humblepy.svg)](https://pypi.org/project/humblepy/)

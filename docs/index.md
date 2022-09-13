@@ -1,6 +1,6 @@
 #
 
-![logo](assets/images/humblepy-banner-logo.svg)
+![logo](https://firebasestorage.googleapis.com/v0/b/oktiv-1a64a.appspot.com/o/images%2Fhumblepy-banner-logo.svg?alt=media)
 
 ## Installation
 
