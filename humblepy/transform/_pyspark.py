@@ -28,16 +28,17 @@ def _get_pyspark_hash_function(
     return hash_function_dict[hash_algorithm]
 
 
-def _with_pyspark_hash_value_column(
+def _with_pyspark_hash_column(
     df: pq.DataFrame,
     columns_to_hash: list[str],
     hash_algorithm: Literal["sha256", "sha512", "md5"],
     sort_columns: bool,
+    is_key: bool,
     concat_with: str,
     replace_null_with: str,
     uppercase: bool,
     strip_whitespace: bool,
-    hash_value_column_name: str,
+    hash_column_name: str,
 ) -> pq.DataFrame:
     """A new PySpark DataFrame based on the DataFrame passed in, with an additional column containing hashed values.
 
@@ -45,18 +46,24 @@ def _with_pyspark_hash_value_column(
         df (pq.DataFrame): PySpark DataFrame to generate a hash value column from.
         columns_to_hash (list): List of DataFrame columns to hash.
         hash_algorithm (Literal["sha256", "sha512", "md5"]): Name of the hash algorithm to use. Must be one of ("sha256", "sha512", "md5").
+        is_key (bool): If False, the hash values column will contain no nulls. If True, the hash value column will be null for any row where all of the values in the `columns_to_hash` columns are null.
         sort_columns (bool): If True, the DataFrame columns in `columns_to_hash` will be sorted alphabetically prior to hashing.
         concat_with (str): The string value to concatenate column value strings together with, before hashing. Using the default `concat_with` value, a row with values ("apple", "banana") will be concatenated as "apple||banana".
         replace_null_with (str): The string value to replace nulls with, before hashing. Using the default `replace_null_with` and `concat_with` values, a row with values (null, null) will be concatenated as "^^||^^".
         uppercase (bool): If True, values will be converted to uppercase before hashing.
         strip_whitespace (bool): If True, values will have leading and trailing whitespaces removed before hashing.
-        hash_value_column_name (str): The name of the hash value column to be added.
+        hash_column_name (str): The name of the hash value column to be added.
 
     Returns:
         pyspark.sql.DataFrame: A new PySpark DataFrame based on the DataFrame passed in, with an additional column containing hashed values.
     """
-    # Get PySpark hash function function
+    # Get PySpark hash function
     hash_function = _get_pyspark_hash_function(hash_algorithm)
+    # Get the value that will be hashed if all the values in the `columns_to_hash` columns are null, and `is_key` is False.
+    # If there are three columns to hash, the string will be "^^||^^||^^" if default values for `concat_with` and `replace_null_with` are used.
+    null_string = concat_with.join(replace_null_with for column in columns_to_hash)
+    # Get the hash value for the null_string
+    null_hash_value = hash_function(F.lit(null_string))
     # PySpark DataFrames are immutable so there's no need to create a deep copy.
     # This line keeps the `_df` variable name consistent with functions that operate on mutable DataFrames (e.g. pandas).
     _df = df
@@ -76,11 +83,17 @@ def _with_pyspark_hash_value_column(
     normalise = lambda x: replace_null(convert_case(strip(as_string(x))))
     # Concatenate column strings with the `concat_with` value
     concatenate = lambda x: F.concat_ws(concat_with, *x)
+    # If `is_key` is True and the hashed value == `null_hash_value`, replace its value with None
+    if_key_allow_null = (
+        lambda x: F.when(x == null_hash_value, None).otherwise(x) if is_key else x
+    )
 
     # Create hash value column
     _df = _df.withColumn(
-        hash_value_column_name,
-        hash_function(concatenate(normalise(x) for x in sorted_columns_to_hash)),
+        hash_column_name,
+        if_key_allow_null(
+            hash_function(concatenate(normalise(x) for x in sorted_columns_to_hash))
+        ),
     )
 
     return _df
