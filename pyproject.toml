@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "humblepy"
-version = "0.4.0"
+version = "0.5.0"
 description = "Tasty recipes for analytics engineering."
 readme = "README.md"
 authors = ["OKTIV Analytics <humblepy@oktivanalytics.com>"]
