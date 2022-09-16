@@ -4,7 +4,11 @@ import pandas as pd
 import pyspark.sql as pq
 import pytest
 
-from humblepy.transform.functions import get_file_checksum, with_hash_column
+from humblepy.transform.functions import (
+    get_file_checksum,
+    get_string_normalised,
+    with_hash_column,
+)
 
 
 def test_with_hash_column_pandas(numeric_with_nulls_pandas_df_fixture):
@@ -53,3 +57,30 @@ def test_get_file_checksum():
     """Tests the get_file_checksum() function with a mocked input file."""
     result = get_file_checksum(file_path="/path/file.txt")
     assert result == "cdfb7eedb2e18788f0ce8bdf2914a06debde937defd84b329fb496a50fd8928c"
+
+
+def test_get_string_normalised_uppercase():
+    """Tests the get_string_normalised() function."""
+    string = " [] 1000       humblePy, is //// TASTY.0101  "
+
+    assert (
+        get_string_normalised(
+            string=string, remove_numbers=True, remove_whitespace=True
+        )
+        == "HUMBLEPYISTASTY"
+    )
+
+
+def test_get_string_normalised_lowercase():
+    """Tests the get_string_normalised() function."""
+    string = "  1HUMBLEpy, is / TASTY0  "
+
+    assert (
+        get_string_normalised(
+            string=string,
+            lowercase=True,
+            remove_numbers=True,
+            replace_whitespace_with="_",
+        )
+        == "humblepy_is_tasty"
+    )
