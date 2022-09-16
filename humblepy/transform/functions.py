@@ -1,4 +1,6 @@
-from typing import TYPE_CHECKING, Literal, Optional, Union
+from typing import TYPE_CHECKING, Any, Callable, Literal, Optional, Type, Union
+
+import re
 
 import pandas as pd
 
@@ -97,3 +99,68 @@ def get_file_checksum(
     # Read file as bytes
     with open(file_path, "rb") as f:
         return hash_function(f.read()).hexdigest()
+
+
+def get_string_normalised(
+    string: str,
+    uppercase: Optional[bool] = True,
+    lowercase: Optional[bool] = False,
+    strip_whitespace: Optional[bool] = True,
+    remove_punctuation: Optional[bool] = True,
+    remove_numbers: Optional[bool] = False,
+    remove_whitespace: Optional[bool] = False,
+    replace_whitespace_with: Union[str, None] = None,
+) -> str:
+    """Returns a normalised version of the string passed in.
+    The order the transformations are applied in is:
+        1. Convert case (if `uppercase` is True or `lowercase` is True)
+        2. Strip leading and trailing whitespaces (if `strip_whitespace` is True)
+        3. Remove punctuation (if `remove_punctuation` is True)
+        4. Remove numbers (if `remove_numbers` is True)
+        5. Remove whitespaces (if `remove_whitespace` is true)
+        6. Replace whitespaces with the value of `replace_whitespace_with` (if `replace_whitespace_with` is a string)
+
+    Args:
+        string (str): The string to be normalised. Note: strings are immutable in Python; this function returns a new string.
+        uppercase (bool, optional): If True and `lowercase` is False (its default value), the string will be converted to uppercase. Defaults to True.
+        lowercase (bool, optional): If True, the string will be converted to lowercase. Defaults to False.
+        strip_whitespace (bool, optional): If True, leading and trailing whitespaces will be removed from the string. Defaults to True.
+        remove_punctuation (bool, optional): If True, every character except alphanumeric characters, underscores, and whitespaces will be removed. Defaults to True.
+        remove_numbers (bool, optional): If True, numeric characters will be removed from the string. Defaults to False.
+        remove_whitespace (bool, optional): If True, all whitespaces (including spaces, tabs, and linebreaks) will be removed from the string. Defaults to False.
+        replace_whitespace_with (Union[str, None], optional): If `replace_whitespace_with` is a string, whitespaces (including spaces, tabs, and linebreaks) in the string will be replaced with this value. Defaults to None.
+
+    Raises:
+        TypeError: TypeError if `string` not instance of <class 'str'>.
+
+    Returns:
+        str: A normalised version of the string passed in.
+    """
+    if not isinstance(string, str):
+        raise TypeError(f"`string` must be {str}. Found {type(string)}.")
+
+    _convert_case = (
+        lambda x: x.upper()
+        if uppercase and not lowercase
+        else x.lower()
+        if lowercase
+        else x
+    )
+    _strip_whitespace = lambda x: x.strip() if strip_whitespace else x
+    _remove_punctuation = (
+        lambda x: re.sub(r"[^\w\s]", "", x) if remove_punctuation else x
+    )
+    _remove_numbers = lambda x: re.sub(r"\d+", "", x) if remove_numbers else x
+    _replace_whitespace_with = (
+        lambda x: re.sub(r"\s+", replace_whitespace_with, x)
+        if isinstance(replace_whitespace_with, str)
+        else x
+    )
+    _remove_whitespace = lambda x: re.sub(r"\s+", "", x) if remove_whitespace else x
+    _normalise = lambda x: _remove_whitespace(
+        _replace_whitespace_with(
+            _remove_numbers(_remove_punctuation(_strip_whitespace(_convert_case(x))))
+        )
+    )
+
+    return str(_normalise(string))
